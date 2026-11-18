@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Electronics – Lecture 1 Study Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Tajawal:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1b1917;
+      --panel: #252220;
+      --line: #3a3532;
+      --tx: #ece6df;
+      --mut: #a79f97;
+      --acc: #ff6f59;
+      --ok: #2e9e5b;
+      --bad: #d64545;
+      --warn: #e0b04a
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 70px
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--tx);
+      font: 15px/1.65 "JetBrains Mono", ui-monospace, Consolas, Menlo, monospace;
+      overflow-x: hidden
+    }
+
+    .ar {
+      font-family: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+      direction: rtl;
+      unicode-bidi: isolate
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 5vw;
+      border-bottom: 1px solid var(--line)
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem
+    }
+
+    h1 b {
+      color: var(--acc)
+    }
+
+    .sub {
+      color: var(--mut);
+      font-size: .85rem
+    }
+
+    .prog {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .ring {
+      position: relative;
+      width: 84px;
+      height: 84px
+    }
+
+    .ring svg {
+      transform: rotate(-90deg)
+    }
+
+    .ring circle {
+      fill: none;
+      stroke-width: 7
+    }
+
+    .ring .bg {
+      stroke: var(--line)
+    }
+
+    .ring .fg {
+      stroke: var(--acc);
+      stroke-linecap: round;
+      transition: stroke-dashoffset .6s ease
+    }
+
+    #pct {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-weight: 700
+    }
+
+    #cnt {
+      font-size: .85rem
+    }
+
+    button.reset {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--mut);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font: inherit;
+      font-size: .75rem;
+      cursor: pointer;
+      margin-top: 6px
+    }
+
+    button.reset:hover {
+      border-color: var(--acc);
+      color: var(--acc)
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 5vw;
+      white-space: nowrap
+    }
+
+    nav a {
+      color: var(--mut);
+      text-decoration: none;
+      font-size: .78rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 3px 9px
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--acc);
+      border-color: var(--acc);
+      outline: none
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 5vw 40px
+    }
+
+    .chap {
+      color: var(--acc);
+      margin: 34px 0 6px;
+      font-size: 1.05rem
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--acc);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-top: 14px
+    }
+
+    .card h2 {
+      margin: 0 0 2px;
+      font-size: 1.08rem
+    }
+
+    .card h2::before {
+      content: "$ ";
+      color: var(--acc)
+    }
+
+    .pg {
+      color: var(--mut);
+      font-size: .75rem;
+      margin-bottom: 10px
+    }
+
+    .formula {
+      background: #161412;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      color: #ffd2c8;
+      overflow-x: auto
+    }
+
+    .formula div {
+      white-space: nowrap
+    }
+
+    .card ul {
+      margin: 8px 0;
+      padding-left: 20px
+    }
+
+    .note,
+    .flag {
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 10px 0;
+      font-size: .85rem
+    }
+
+    .note {
+      background: rgba(255, 111, 89, .1);
+      border: 1px solid var(--acc)
+    }
+
+    .flag {
+      background: rgba(224, 176, 74, .1);
+      border: 1px solid var(--warn)
+    }
+
+    .qs {
+      margin: 10px 0 0
+    }
+
+    .q {
+      background: #201d1b;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 10px
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: .7rem;
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-bottom: 6px
+    }
+
+    .tag.pdf {
+      background: var(--acc);
+      color: #1b1917
+    }
+
+    .tag.ai {
+      border: 1px solid var(--mut);
+      color: var(--mut)
+    }
+
+    .q p {
+      margin: 2px 0 10px
+    }
+
+    .opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #2a2624;
+      color: var(--tx);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      font: inherit;
+      cursor: pointer
+    }
+
+    .opt:hover:not(:disabled) {
+      border-color: var(--acc)
+    }
+
+    .opt:disabled {
+      cursor: default;
+      color: var(--tx)
+    }
+
+    .opt.ok {
+      background: var(--ok);
+      border-color: var(--ok);
+      color: #fff
+    }
+
+    .opt.bad {
+      background: var(--bad);
+      border-color: var(--bad);
+      color: #fff
+    }
+
+    .fb {
+      display: none;
+      margin-top: 8px;
+      font-size: .88rem
+    }
+
+    .fb.show {
+      display: block
+    }
+
+    .fb.good {
+      color: #6fd698
+    }
+
+    .fb.wrong {
+      color: #ff8d8d
+    }
+
+    .ex {
+      color: var(--mut);
+      margin-top: 4px
+    }
+
+    footer {
+      text-align: center;
+      color: var(--mut);
+      padding: 28px 5vw;
+      border-top: 1px solid var(--line);
+      font-size: .85rem
+    }
+
+    #warn {
+      display: none;
+      background: var(--warn);
+      color: #1b1917;
+      padding: 6px 5vw;
+      font-size: .8rem
+    }
+
+    @media(max-width:560px) {
+      .card {
+        padding: 14px
+      }
+
+      .ring {
+        width: 72px;
+        height: 72px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      html {
+        scroll-behavior: auto
+      }
+
+      .ring .fg {
+        transition: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="warn">Browser storage is unavailable – progress will not be saved after closing this page.</div>
+  <header>
+    <div>
+      <h1><b>&gt;</b> Electronics – Lecture 1</h1>
+      <div class="sub">Chapter 1: Electricity · Chapter 3: Ohm’s Law · <span class="ar">مذكرة مراجعة تفاعلية</span>
+      </div>
+    </div>
+    <div class="prog">
+      <div class="ring"><svg width="84" height="84" viewBox="0 0 84 84">
+          <circle class="bg" cx="42" cy="42" r="36" />
+          <circle class="fg" id="fg" cx="42" cy="42" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2" />
+        </svg>
+        <div id="pct">0%</div>
+      </div>
+      <div>
+        <div id="cnt">Completed 0 / 0 Questions</div><button class="reset" id="reset" type="button">Reset
+          Progress</button>
+      </div>
+    </div>
+  </header>
+  <nav id="nav" aria-label="Quick navigation"></nav>
+  <main id="main"></main>
+  <footer>— End of the study material —</footer>
+
+  <script>
+    const TOPICS = [
+      {
+        id: "t1", ch: "Chapter 1: Electricity", t: "Powers of 10 and Metric Prefixes", pg: "PDF pp. 9–10 (Tables I-1, I-2)",
+        f: ["10<sup>x</sup> &nbsp;(Base = 10, Exponent = x)"],
+        ex: ["Table I-1: 1,000 = 10³ · 1 = 10⁰ · 0.001 = 10⁻³ · 0.000001 = 10⁻⁶.", "Table I-2 prefixes: tera T = 10¹² · giga G = 10⁹ · mega M = 10⁶ · kilo k = 10³ · milli m = 10⁻³ · micro μ = 10⁻⁶ · nano n = 10⁻⁹ · pico p = 10⁻¹²."],
+        note: "",
+        qs: [
+          {s: "ai", q: "According to Table I-2, which prefix corresponds to 10⁶?", o: ["kilo (k)", "mega (M)", "giga (G)", "milli (m)"], a: 1, e: "Table I-2: 10⁶ = mega, abbreviation M."},
+          {s: "ai", q: "Which pair correctly describes the number 0.000001?", o: ["10⁻³ — milli (m)", "10⁻⁹ — nano (n)", "10⁻⁶ — micro (μ)", "10⁶ — mega (M)"], a: 2, e: "Table I-1: 0.000001 = 10⁻⁶. Table I-2: 10⁻⁶ = micro, μ."}]
+      },
+      {
+        id: "t2", t: "Electrical Quantities, Units and Symbols", pg: "PDF p. 11 (Table I-3, Table 1.1)",
+        f: ["Current — Ampere (A) — <i>I</i>", "Voltage — Volt (V) — <i>V</i>", "Resistance — Ohm (Ω) — <i>R</i>", "Frequency — Hertz (Hz) — <i>f</i>", "Capacitance — Farad (F) — <i>C</i>", "Inductance — Henry (H) — <i>L</i>", "Power — Watt (W) — <i>P</i>"],
+        ex: ["Table 1.1 (six basic SI units): Length meter m · Mass kilogram kg · Time second s · Electric current ampere A · Thermodynamic temperature kelvin K · Luminous intensity candela cd."],
+        note: "",
+        qs: [
+          {s: "ai", q: "Which unit and symbol belong to inductance (Table I-3)?", o: ["Farad (F), symbol C", "Henry (H), symbol L", "Hertz (Hz), symbol f", "Watt (W), symbol P"], a: 1, e: "Table I-3: Inductance — Henry (H) — L."},
+          {s: "ai", q: "Which quantity–unit–symbol line is correct?", o: ["Frequency: Hertz (Hz), symbol L", "Inductance: Henry (H), symbol C", "Capacitance: Farad (F), symbol C", "Power: Watt (W), symbol W"], a: 2, e: "Table I-3: Capacitance — Farad (F) — C. The other lines mix up symbols (frequency is f, inductance is L, power is P)."}]
+      },
+      {
+        id: "t3", t: "Electrons, Protons and the Atom", pg: "PDF pp. 12–15",
+        f: ["Neutral atom: number of electrons = number of protons", "Atomic number = number of protons"],
+        ex: ["All materials (solids, liquids, gases) contain two basic particles of electric charge: the electron (negative polarity, the smallest amount of electric charge) and the proton (positive polarity).", "Bohr atom: the nucleus is positively charged and has the protons and neutrons; electrons are negatively charged and in discrete shells; the atomic number determines the particular element.", "An atom is the smallest particle of the basic elements; each stable combination of electrons and protons makes one atom. The proton makes the nucleus the massive and stable part because a proton is 1840 times heavier than an electron (as stated in the PDF).", "Figures: hydrogen atom = one proton in nucleus + one electron in orbit; carbon atom = 6 protons + 6 neutrons; shells K, L, M, N labelled 2, 8, 18, 32; hydrogen levels n=1: −13.6 eV, n=2: −3.40 eV, n=3: −1.51 eV, n=∞: 0 eV."],
+        note: "",
+        flag: "Unclear in PDF: the formula ΔE = E − E = hν on the energy-level figure (p. 15) has unreadable subscripts, so it is not reproduced here.",
+        qs: [
+          {s: "ai", q: "In a neutral atom, the number of electrons is equal to the number of …", o: ["neutrons", "protons", "shells", "nuclei"], a: 1, e: "Bohr atom slide: in the neutral atom, the number of electrons is equal to the number of protons."},
+          {s: "ai", q: "The carbon-atom figure shows 6 protons + 6 neutrons. How many electrons does the neutral carbon atom have?", o: ["12", "0", "6", "18"], a: 2, e: "Neutral atom: electrons = protons, so 6 electrons. (Neutrons carry no count in this rule.)"}]
+      },
+      {
+        id: "t4", t: "Electric Charge", pg: "PDF pp. 16 and 19",
+        f: ["<i>e</i> = −1.602 × 10<sup>−19</sup> C"],
+        ex: ["Charge is an electrical property of the atomic particles of which matter consists, measured in coulombs (C).", "The charge e on one electron is negative and equal in magnitude to 1.602 × 10⁻¹⁹ C (the electronic charge)."],
+        note: "Special case: charges that occur in nature are integral multiples of the electronic charge.",
+        qs: [
+          {s: "pdf", q: "How much charge is represented by 4,600 electrons? (PDF p. 19)", o: ["−7.369 × 10⁻¹⁹ C", "+7.369 × 10⁻¹⁶ C", "−7.369 × 10⁻¹⁶ C", "−1.602 × 10⁻¹⁵ C"], a: 2, e: "Each electron has −1.602 × 10⁻¹⁹ C, so −1.602 × 10⁻¹⁹ C/electron × 4,600 electrons = −7.369 × 10⁻¹⁶ C."},
+          {s: "ai", q: "In which unit is electric charge measured?", o: ["ampere (A)", "coulomb (C)", "volt (V)", "ohm (Ω)"], a: 1, e: "Charge is measured in coulombs (C)."},
+          {s: "ai", q: "What is the charge of 1,000 electrons?", o: ["−1.602 × 10⁻²² C", "+1.602 × 10⁻¹⁶ C", "−1.602 × 10⁻¹⁵ C", "−1.602 × 10⁻¹⁶ C"], a: 3, e: "−1.602 × 10⁻¹⁹ C × 1,000 = −1.602 × 10⁻¹⁶ C (same method as the PDF example)."}]
+      },
+      {
+        id: "t5", t: "Flow of Charge: Electric Current, DC and AC", pg: "PDF pp. 17–18",
+        f: ["<i>i</i> = <i>dq</i> / <i>dt</i> &nbsp;(1.1)", "1 ampere = 1 coulomb/second"],
+        ex: ["Electric current is the time rate of change of charge, measured in amperes (A).", "When a conducting wire is connected to a battery (a source of electromotive force), charges are compelled to move; this motion creates electric current.", "A direct current (dc) remains constant with time. An alternating current (ac) varies sinusoidally with time."],
+        note: "Convention: current flow is taken as the movement of positive charges, i.e. opposite to the flow of negative charges.",
+        flag: "Suspected numbering inconsistency in the PDF: this equation is labelled (1.1) here, while p. 23 calls V = W/Q “Equation 1–1”. Kept as in the source.",
+        qs: [
+          {s: "ai", q: "A direct current (dc) is a current that …", o: ["varies sinusoidally with time", "remains constant with time", "always equals zero", "flows only in liquids"], a: 1, e: "PDF: a direct current (dc) is a current that remains constant with time."},
+          {s: "ai", q: "By convention, current flow is taken as the movement of …", o: ["negative charges, in the same direction as electrons", "positive charges, opposite to the flow of negative charges", "neutrons toward the nucleus", "electrons toward the negative terminal"], a: 1, e: "PDF: the conventional current is the movement of positive charges, opposite to the flow of negative charges."}]
+      },
+      {
+        id: "t6", t: "Potential Difference and the Volt", pg: "PDF pp. 20, 22–24",
+        f: ["<i>V</i> = <i>W</i> / <i>Q</i>"],
+        ex: ["<i>V</i> = voltage in volts, <i>W</i> = work or energy in joules, <i>Q</i> = charge in coulombs.", "Potential is the possibility of doing work; when two unlike charges are considered, they have a difference of potential.", "The potential difference between two points is one volt when one joule of energy is expended in moving one coulomb of charge between those points."],
+        note: "A constant voltage is a dc voltage, represented by V (commonly produced by a battery). A sinusoidally time-varying voltage is an ac voltage, represented by v (produced by an electric generator).",
+        qs: [
+          {s: "pdf", q: "What is the output voltage of a battery that expends 3.6 J of energy in moving 0.5 C of charge? (PDF p. 23)", o: ["1.8 V", "7.2 V", "0.14 V", "4.1 V"], a: 1, e: "V = W/Q = 3.6 J / 0.5 C = 7.2 V."},
+          {s: "ai", q: "The potential difference between two points is one volt when …", o: ["one coulomb is moved in one joule of time", "one joule of energy is expended moving one coulomb of charge", "one ampere flows through one ohm", "one watt is dissipated in one second"], a: 1, e: "PDF definition: one volt when one joule of energy is expended in moving one coulomb of charge between the two points."},
+          {s: "ai", q: "A source expends 18 J moving charge across a potential difference of 6 V. How much charge is moved?", o: ["108 C", "12 C", "0.33 C", "3 C"], a: 3, e: "From V = W/Q: Q = W/V = 18 J / 6 V = 3 C."}]
+      },
+      {
+        id: "t7", t: "Charge in Motion Is Current: the Ampere, I = Q/T", pg: "PDF pp. 26–29",
+        f: ["<i>I</i> = <i>Q</i> / <i>T</i>"],
+        ex: ["Current is charge in motion caused by a potential difference; in copper wire the free electrons drift from the negative end through the wire to the positive end.", "One ampere (A) = 6.25 × 10¹⁸ electrons flowing past a given point per second = one coulomb of charge per second.", "In metal conductors the moving charges are free electrons (negative); electron current moves toward the more positive end."],
+        note: "Special case: current also exists from positive charges in motion (liquids, gases, semiconductors); its direction is opposite to electron flow. Either way, current is still defined fundamentally as Q/T.",
+        qs: [
+          {s: "pdf", q: "The charge of 12 C moves past a given point every second. How much is the intensity of charge flow? (Example 1-6, PDF p. 28)", o: ["0.083 A", "24 A", "12 A", "144 A"], a: 2, e: "I = Q/T = 12 C / 1 s = 12 A."},
+          {s: "ai", q: "30 C of charge moves past a point in 5 s. What is the current?", o: ["150 A", "6 A", "35 A", "0.17 A"], a: 1, e: "I = Q/T = 30 C / 5 s = 6 A."},
+          {s: "ai", q: "For current resulting from the motion of positive charges (e.g. in semiconductors), the direction relative to electron flow is …", o: ["the same", "perpendicular", "opposite", "undefined"], a: 2, e: "PDF: for current from positive charges, the direction is opposite from the direction of electron flow."}]
+      },
+      {
+        id: "t8", t: "Resistance, the Ohm and Resistor Color Stripes", pg: "PDF pp. 31–34",
+        f: ["Band A = first digit · Band B = second digit · Band C = decimal multiplier · Band D = tolerance (Gold 5%, Silver 10%)"],
+        ex: ["Resistance is the opposition that limits the amount of current produced by the applied voltage. Conductors have very little resistance; insulators have a large amount.", "Copper has many free electrons (low resistance); carbon has fewer free electrons, so more voltage and more work (more heat) are needed for the same current — carbon has higher resistance.", "Ohm: a resistance that develops 0.24 calorie of heat when one ampere flows through it for one second has one ohm. Symbol R; abbreviation Ω.", "Color code (Table 2-1): Black 0 · Brown 1 · Red 2 · Orange 3 · Yellow 4 · Green 5 · Blue 6 · Violet 7 · Gray 8 · White 9."],
+        note: "",
+        qs: [
+          {s: "ai", q: "Which color has the numerical value 5 in the color code?", o: ["Yellow", "Blue", "Green", "Orange"], a: 2, e: "Table 2-1: Green = 5."},
+          {s: "ai", q: "A resistor’s Band A is Violet and Band B is Gray. Which two-digit number do these bands give?", o: ["87", "78", "68", "76"], a: 1, e: "Band A is the first digit (Violet = 7) and Band B the second (Gray = 8), giving 78."}]
+      },
+      {
+        id: "t9", t: "Conductance", pg: "PDF pp. 35–36",
+        f: ["<i>G</i> = 1 / <i>R</i>", "<i>R</i> = 1 / <i>G</i>"],
+        ex: ["The opposite of resistance is conductance: the lower the resistance, the higher the conductance. Symbol G; unit siemens (S), named after Ernst von Siemens (1816–1892).", "The old unit name for conductance is mho, which is ohm spelled backward."],
+        note: "A higher value of conductance corresponds to a lower value of resistance.",
+        qs: [
+          {s: "pdf", q: "Calculate the resistance for the following conductance values: (a) 0.05 S (b) 0.1 S. (Example 1-8, PDF p. 36)", o: ["(a) 0.05 Ω, (b) 0.1 Ω", "(a) 10 Ω, (b) 20 Ω", "(a) 2 Ω, (b) 1 Ω", "(a) 20 Ω, (b) 10 Ω"], a: 3, e: "R = 1/G: (a) 1/0.05 S = 20 Ω; (b) 1/0.1 S = 10 Ω."},
+          {s: "ai", q: "A component has R = 4 Ω. What is its conductance?", o: ["4 S", "0.4 S", "2.5 S", "0.25 S"], a: 3, e: "G = 1/R = 1/4 Ω = 0.25 S."},
+          {s: "ai", q: "Which resistor has the higher conductance?", o: ["The 20 Ω resistor", "The 10 Ω resistor", "Both are equal", "It cannot be determined"], a: 1, e: "The lower the resistance, the higher the conductance: G = 1/10 = 0.1 S for 10 Ω versus 0.05 S for 20 Ω."}]
+      },
+      {
+        id: "t10", t: "The Closed Circuit", pg: "PDF pp. 38–39",
+        f: ["Source of potential difference + complete path + resistance"],
+        ex: ["1. There must be a source of potential difference. Without the applied voltage, current cannot flow.", "2. There must be a complete path for current flow, from one side of the applied voltage source, through the external circuit, and returning to the other side of the source.", "3. The current path normally has resistance, which is in the circuit either to generate heat or limit the amount of current.", "Figure: voltage source V = 1.5 V, resistance load R = 300 Ω."],
+        note: "",
+        qs: [
+          {s: "ai", q: "Without an applied voltage (source of potential difference), the current …", o: ["is maximum", "is unlimited", "cannot flow", "flows in one direction only"], a: 2, e: "Characteristic 1: without the applied voltage, current cannot flow."},
+          {s: "ai", q: "According to the PDF, the resistance in a circuit is there either to …", o: ["store charge or create voltage", "generate heat or limit the amount of current", "separate electrons and protons or amplify voltage", "open the path or measure current"], a: 1, e: "Characteristic 3: the resistance is in the circuit either to generate heat or limit the amount of current."}]
+      },
+      {
+        id: "t11", t: "Voltage vs. Current; Source and Load", pg: "PDF pp. 41–45",
+        f: ["Voltage can exist without current, but current cannot exist without voltage."],
+        ex: ["It is the current that moves through the circuit; the potential difference does not move.", "Voltage is the potential difference across the two ends of the resistance (measured by connecting a voltmeter across the resistor). Current is the intensity of electron flow past any one point; to measure it you must break open the path at any point and insert the current meter.", "“Across” is used with voltage because it is the PD between two points; there cannot be a PD at one point, but current can be considered at one point.", "The battery’s chemical action continuously separates electrons and protons, maintaining the PD that keeps the current flowing. The battery is the voltage source.", "The part of the circuit connected to the source is the load resistance; the current through it is the load current. A lower value of ohms for the load resistance corresponds to a higher load current. A heavy or big load means a high current load."],
+        note: "Special case: if the circuit is opened by disconnecting the bulb, no current flows, yet a voltmeter across the battery terminals still reads 1.5 V (like a battery on a store shelf).",
+        qs: [
+          {s: "ai", q: "A battery is disconnected from the bulb (open circuit). A voltmeter across its terminals reads 1.5 V. What is the current?", o: ["Zero", "1.5 A", "Infinite", "Equal to the voltage"], a: 0, e: "Voltage can exist without current: no closed path means no current, but the battery still has its 1.5 V."},
+          {s: "ai", q: "A lower value of ohms for the load resistance corresponds to …", o: ["no load current", "a lower load current", "a higher load current", "a lower source voltage"], a: 2, e: "PDF: a lower value of ohms for the load resistance corresponds to a higher load current."}]
+      },
+      {
+        id: "t12", t: "Open Circuit and Short Circuit", pg: "PDF p. 46",
+        f: ["Open circuit: R = infinitely high → no current", "Short circuit: R ≈ 0 → too much current"],
+        ex: ["Open circuit: any part of the path is open or broken, so there is no conducting path (in the wires or the bulb’s filament). Its resistance is infinitely high and there is no current.", "Short circuit: the source has a closed path across its terminals but the resistance is practically zero, giving too much current. It is usually a bypass around the load resistance."],
+        note: "Example: a short across the bulb’s tungsten filament gives too much current in the connecting wires but no current through the bulb. The bulb is not damaged, but the wires can become hot enough to burn unless the line has a fuse.",
+        qs: [
+          {s: "ai", q: "What is the resistance of an open circuit?", o: ["Practically zero", "Infinitely high", "Equal to the load", "1 Ω"], a: 1, e: "The resistance of an open circuit is infinitely high; the result is no current."},
+          {s: "ai", q: "A short is placed across a bulb’s filament. What happens?", o: ["Too much current in the connecting wires, no current through the bulb", "No current anywhere", "The bulb receives too much current", "Voltage rises to infinity"], a: 0, e: "PDF: the short produces too much current in the connecting wires but no current through the bulb (shorted out)."}]
+      },
+      {
+        id: "t13", t: "Direction of Current; DC vs. AC", pg: "PDF pp. 47–51",
+        f: ["Electron flow: negative terminal → external circuit → positive terminal", "Conventional current: positive terminal → external circuit → negative terminal"],
+        ex: ["Electron flow: for the external circuit, electrons go from a point of negative potential to a point of positive potential. Inside the battery, electrons move to the negative terminal as the battery separates charges.", "Conventional current: motion of positive charges, opposite to electron flow; generally used for analyzing circuits in electrical engineering.", "Table 1-5 – DC: fixed polarity; can be steady or vary in magnitude; steady value cannot be stepped up or down by a transformer; terminal voltages for transistor amplifiers; easier to measure. AC: reverses in polarity; varies between reversals; can be stepped up or down for electric power distribution; signal input and output for amplifiers; easier to amplify."],
+        note: "Heating effect is the same for direct or alternating current.",
+        qs: [
+          {s: "ai", q: "Which voltage can be stepped up or down by a transformer for electric power distribution?", o: ["Steady dc voltage", "AC voltage", "Neither", "Both equally"], a: 1, e: "Table 1-5: AC voltage can be stepped up or down for electric power distribution; a steady DC value cannot."},
+          {s: "ai", q: "In the external circuit, electron flow goes from …", o: ["the positive terminal to the negative terminal", "the negative terminal, through the circuit, to the positive side of the source", "the positive terminal to itself", "the load to the source’s positive side only inside the battery"], a: 1, e: "PDF: electron drift is out from the negative side of the source, through the external circuit, returning to the positive side."}]
+      },
+      {
+        id: "t14", t: "The Digital Multimeter and Electrical Characteristics", pg: "PDF pp. 52–53 (Fig. 1-17, Table 1-6)",
+        f: ["<i>Q</i> = <i>I</i> × <i>T</i>", "<i>I</i> = <i>Q</i> / <i>T</i>", "<i>R</i> = 1 / <i>G</i> &nbsp; · &nbsp; <i>G</i> = 1 / <i>R</i>"],
+        ex: ["Fig. 1-17 DMM measurements: (a) measuring voltage, (b) measuring current, (c) measuring resistance.", "Table 1-6: Charge Q or q, coulomb (C) · Current I or i, ampere (A) · Voltage V or v, volt (V): potential difference between two unlike charges, makes charge move to produce I · Resistance R or r, ohm (Ω): opposition that reduces amount of current · Conductance G or g, siemens (S): reciprocal of R."],
+        note: "",
+        flag: "Unclear in PDF: Table 1-6 shows footnote marks (*, †, ‡) beside some symbols, but the footnote text is not in the PDF.",
+        qs: [
+          {s: "ai", q: "A current of 3 A flows for 4 s. How much charge moves (Q = I × T)?", o: ["0.75 C", "7 C", "12 C", "1.33 C"], a: 2, e: "Q = I × T = 3 A × 4 s = 12 C."},
+          {s: "ai", q: "How long does it take 24 C to flow at a current of 6 A?", o: ["144 s", "4 s", "0.25 s", "30 s"], a: 1, e: "From I = Q/T: T = Q/I = 24 C / 6 A = 4 s."}]
+      },
+      {
+        id: "t15", ch: "Chapter 3: Ohm’s Law", t: "Ohm’s Law: I = V / R", pg: "PDF pp. 58–62 (Examples incl. 3-1)",
+        f: ["<i>I</i> = <i>V</i> / <i>R</i>"],
+        ex: ["Discovered in 1826 by Georg Simon Ohm; the basic foundation for all circuit analysis in electronics. The current I is directly proportional to the voltage V and inversely proportional to the resistance R.", "Fig. 3-2: a 6-V battery across R = 3 Ω gives I = V/R = 2 A.", "High voltage but low current: 1000 V across 1,000,000 Ω gives I = 1/1000 A = 0.001 A.", "Low voltage but high current: a 6-V battery across 0.01 Ω gives 600 A."],
+        note: "Less I with more R: for the same V, a higher resistance gives less current.",
+        qs: [
+          {s: "pdf", q: "1000 V is applied across 1,000,000 Ω. What is the current? (PDF worked example, p. 58)", o: ["1000 A", "1 A", "0.01 A", "0.001 A"], a: 3, e: "I = V/R = 1000 V / 1,000,000 Ω = 1/1000 = 0.001 A."},
+          {s: "pdf", q: "A 6-V battery is connected across a resistance of 0.01 Ω. What current is produced? (PDF worked example, p. 61)", o: ["0.06 A", "60 A", "6 A", "600 A"], a: 3, e: "I = V/R = 6 V / 0.01 Ω = 600 A."},
+          {s: "pdf", q: "A heater with the resistance of 8 Ω is connected across the 120-V power line. How much is current I? (Example 3-1, PDF p. 62)", o: ["960 A", "15 A", "0.067 A", "112 A"], a: 1, e: "I = V/R = 120 V / 8 Ω = 15 A."},
+          {s: "ai", q: "A 12-V source is connected across 4 Ω. What is the current?", o: ["48 A", "0.33 A", "3 A", "8 A"], a: 2, e: "I = V/R = 12 V / 4 Ω = 3 A."},
+          {s: "ai", q: "The applied voltage stays the same and the resistance is doubled. The current …", o: ["doubles", "is halved", "stays the same", "becomes zero"], a: 1, e: "I is inversely proportional to R (I = V/R), so doubling R halves I."}]
+      },
+      {
+        id: "t16", t: "V = IR and R = V / I", pg: "PDF pp. 63–67 (Examples 3-3, 3-4, 3-6)",
+        f: ["<i>V</i> = <i>I</i><i>R</i> &nbsp;(3–2)", "<i>R</i> = <i>V</i> / <i>I</i>"],
+        ex: ["Fig. 3-2: the IR voltage is 2 A × 3 Ω = 6 V, equal to the applied voltage because the resistance is connected directly across the battery.", "Fig. 3-3: the resistance of any component is its V/I ratio (12 V, I = 3 A, 4-Ω box)."],
+        note: "Volts across kilohms produces milliamperes of current; volts across megohms produces microamperes.",
+        qs: [
+          {s: "pdf", q: "If a 12-Ω resistor is carrying a current of 2.5 A, how much is its voltage? (Example 3-3, PDF p. 64)", o: ["4.8 V", "14.5 V", "30 V", "0.21 V"], a: 2, e: "V = IR = 2.5 A × 12 Ω = 30 V."},
+          {s: "pdf", q: "How much is the resistance of a lightbulb if it draws 0.16 A from a 12-V battery? (Example 3-4, PDF p. 66)", o: ["75 Ω", "1.92 Ω", "0.013 Ω", "12.16 Ω"], a: 0, e: "R = V/I = 12 V / 0.16 A = 75 Ω."},
+          {s: "pdf", q: "How much current is produced by 60 V across 12 kΩ? (Example 3-6, PDF p. 67)", o: ["720 mA", "5 A", "5 μA", "5 mA"], a: 3, e: "I = V/R = 60 / (12 × 10³) = 5 × 10⁻³ A = 5 mA."},
+          {s: "ai", q: "A current of 5 A flows through a 10-Ω resistor. What is the voltage across it?", o: ["50 V", "2 V", "0.5 V", "15 V"], a: 0, e: "V = IR = 5 A × 10 Ω = 50 V."},
+          {s: "ai", q: "24 V is applied across 8 kΩ. What is the current?", o: ["192 mA", "3 A", "3 mA", "333 μA"], a: 2, e: "I = V/R = 24 / (8 × 10³) = 3 × 10⁻³ A = 3 mA (volts across kilohms gives milliamperes)."}]
+      },
+      {
+        id: "t17", t: "Practical Units and the Linear Proportion between V and I", pg: "PDF pp. 68–70 (Tables 3-1, 3-2, Fig. 3-5)",
+        f: ["1 ampere = 1 volt / 1 ohm", "1 volt = 1 ampere × 1 ohm", "1 ohm = 1 volt / 1 ampere"],
+        ex: ["One ampere is the current through a one-ohm resistance with one volt applied. One volt is the PD across a one-ohm resistance with one ampere through it. One ohm is the opposition in a resistance with a V/I ratio of 1.", "Table 3-1: mega M = 1×10⁶ (5 MΩ = 5,000,000 ohms) · kilo k = 1×10³ (18 kV = 18,000 V) · milli m = 1×10⁻³ (48 mA = 0.048 A) · micro μ = 1×10⁻⁶ (15 μV = 0.000 015 V).", "Table 3-2: coulomb = 6.25 × 10¹⁸ electrons · ampere = coulomb/second · volt = joule/coulomb · watt = joule/second · ohm = volt/ampere · siemens = ampere/volt.", "Fig. 3-5 (R constant at 2 Ω): V = 0, 2, 4, 6, 8, 10, 12 V gives I = 0, 1, 2, 3, 4, 5, 6 A — a linear volt-ampere characteristic."],
+        note: "With R constant, I increases in direct proportion to V.",
+        qs: [
+          {s: "ai", q: "Using Table 3-1, 48 mA equals …", o: ["48 A", "0.048 A", "4.8 A", "0.48 A"], a: 1, e: "milli = 10⁻³: 48 mA = 48 × 10⁻³ A = 0.048 A."},
+          {s: "ai", q: "With R constant at 2 Ω (Fig. 3-5), what current flows when V = 10 V?", o: ["20 A", "0.2 A", "5 A", "12 A"], a: 2, e: "I = V/R = 10/2 = 5 A, matching the table in Fig. 3-5."}]
+      },
+      {
+        id: "t18", t: "Electric Power", pg: "PDF pp. 72–73 (Example 3-7)",
+        f: ["<i>P</i> = <i>V</i> × <i>I</i> &nbsp;(3–4)", "<i>I</i> = <i>P</i> / <i>V</i>", "<i>V</i> = <i>P</i> / <i>I</i>"],
+        ex: ["The unit of power is the watt (W), named after James Watt (1736–1819). One watt equals the work done in one second by one volt of PD in moving one coulomb of charge.", "Power in watts = volts × amperes. A 6-V battery producing 2 A generates 12 W."],
+        note: "",
+        qs: [
+          {s: "pdf", q: "A toaster takes 10 A from the 120-V power line. How much power is used? (Example 3-7, PDF p. 73)", o: ["12 W", "110 W", "1200 W (1.2 kW)", "12 kW"], a: 2, e: "P = V × I = 120 V × 10 A = 1200 W or 1.2 kW."},
+          {s: "ai", q: "A 12-V source delivers 3 A. What is the power?", o: ["4 W", "36 W", "15 W", "0.25 W"], a: 1, e: "P = V × I = 12 × 3 = 36 W."},
+          {s: "ai", q: "A load uses 48 W from a 12-V source. What current does it draw?", o: ["576 A", "36 A", "0.25 A", "4 A"], a: 3, e: "I = P/V = 48 W / 12 V = 4 A."}]
+      },
+      {
+        id: "t19", t: "Power Dissipation in Resistance", pg: "PDF pp. 75–77 (Examples 3-11, 3-12)",
+        f: ["<i>P</i> = <i>I</i><sup>2</sup><i>R</i> &nbsp;(3–7)", "<i>P</i> = <i>V</i><sup>2</sup> / <i>R</i> &nbsp;(3–8)"],
+        ex: ["Substituting IR for V in P = V × I gives P = I²R (common because of the heat produced by current in a resistance). Substituting V/R for I gives P = V²/R.", "Fig. 3-6: 12 V, I = 2 A, R = 6 Ω → V × I = 24 W, I²R = 24 W, V²/R = 24 W."],
+        note: "Example 3-12 has higher power than 3-11 because of more I, even though R is less.",
+        qs: [
+          {s: "pdf", q: "Calculate the power in a circuit where the source of 100 V produces 2 A in a 50-Ω R. (Example 3-11, PDF p. 76)", o: ["200 W", "100 W", "5000 W", "2 W"], a: 0, e: "P = I²R = 2 × 2 × 50 = 200 W; the resistance dissipates 200 W as heat."},
+          {s: "pdf", q: "Calculate the power in a circuit in which the same 100-V source produces 4 A in a 25-Ω R. (Example 3-12, PDF p. 77)", o: ["100 W", "1600 W", "29 W", "400 W"], a: 3, e: "P = I²R = 4² × 25 = 16 × 25 = 400 W."},
+          {s: "ai", q: "A current of 3 A flows through a 10-Ω resistor. What power is dissipated?", o: ["30 W", "13 W", "90 W", "300 W"], a: 2, e: "P = I²R = 3² × 10 = 90 W."},
+          {s: "ai", q: "Why is the power in Example 3-12 higher than in Example 3-11 even though R is smaller?", o: ["The current I is larger, and P = I²R", "The voltage is larger", "R is squared in P = I²R", "The source is different"], a: 0, e: "The PDF note: higher power because of more I (4 A vs 2 A), even though R is less; the same 100-V source is used."}]
+      },
+      {
+        id: "t20", t: "Power Formulas", pg: "PDF pp. 79–81 (Examples 3-13, 3-15)",
+        f: ["<i>P</i> = <i>VI</i> &nbsp; · &nbsp; <i>P</i> = <i>I</i><sup>2</sup><i>R</i> &nbsp; · &nbsp; <i>P</i> = <i>V</i><sup>2</sup>/<i>R</i>", "<i>I</i> = <i>P</i>/<i>V</i> &nbsp; · &nbsp; <i>R</i> = <i>P</i>/<i>I</i><sup>2</sup> &nbsp; · &nbsp; <i>R</i> = <i>V</i><sup>2</sup>/<i>P</i>", "<i>V</i> = <i>P</i>/<i>I</i> &nbsp; · &nbsp; <i>I</i> = √(<i>P</i>/<i>R</i>) &nbsp; · &nbsp; <i>V</i> = √(<i>PR</i>)"],
+        ex: ["Which formula to use depends on which quantity you want to find and which two are known."],
+        note: "",
+        qs: [
+          {s: "pdf", q: "How much current is needed for a 600-W, 120-V toaster? (Example 3-13, PDF p. 80)", o: ["72,000 A", "0.2 A", "20 A", "5 A"], a: 3, e: "I = P/V = 600/120 = 5 A."},
+          {s: "pdf", q: "How much current is needed for a 24-Ω R that dissipates 600 W? (Example 3-15, PDF p. 81)", o: ["5 A", "25 A", "14,400 A", "0.04 A"], a: 0, e: "I = √(P/R) = √(600 W / 24 Ω) = √25 = 5 A."},
+          {s: "ai", q: "A 120-V device dissipates 600 W. What is its resistance (R = V²/P)?", o: ["5 Ω", "24 Ω", "72 Ω", "0.04 Ω"], a: 1, e: "R = V²/P = 120² / 600 = 14,400 / 600 = 24 Ω."},
+          {s: "ai", q: "A 4-Ω resistor dissipates 100 W. What is the voltage across it (V = √(PR))?", o: ["25 V", "10 V", "400 V", "20 V"], a: 3, e: "V = √(PR) = √(100 × 4) = √400 = 20 V."}]
+      }
+    ];
+    /*ENGINE*/
+    const KEY = "Elec_L1_2_3_1__progress_v1", L = "ABCD";
+    let S = {};
+    function load() {try {const r = localStorage.getItem(KEY); S = r ? (JSON.parse(r) || {}) : {}} catch (e) {S = {}; warn()} }
+    function save() {try {localStorage.setItem(KEY, JSON.stringify(S))} catch (e) {warn()} }
+    function warn() {document.getElementById("warn").style.display = "block"}
+    const total = TOPICS.reduce((n, t) => n + t.qs.length, 0);
+    function build() {
+      let h = "", nv = "", lastCh = "";
+      TOPICS.forEach(t => {
+        if (t.ch && t.ch !== lastCh) {h += '<h3 class="chap">' + t.ch + '</h3>'; lastCh = t.ch}
+        nv += '<a href="#' + t.id + '">' + t.t + '</a>';
+        h += '<section class="card" id="' + t.id + '"><h2>' + t.t + '</h2><div class="pg">Source: ' + t.pg + '</div>' +
+          '<div class="formula">' + t.f.map(x => '<div>' + x + '</div>').join("") + '</div>' +
+          '<ul>' + t.ex.map(x => '<li>' + x + '</li>').join("") + '</ul>' +
+          (t.note ? '<div class="note">★ ' + t.note + '</div>' : '') + (t.flag ? '<div class="flag">⚠ ' + t.flag + '</div>' : '') +
+          '<div class="qs">' + t.qs.map((q, j) => {
+            const id = t.id + "_" + j;
+            return '<div class="q" data-id="' + id + '"><span class="tag ' + q.s + '">' + (q.s === "pdf" ? "Lecture question (from PDF)" : "AI-generated practice question") + '</span><p>' + q.q + '</p>' +
+              q.o.map((o, k) => '<button type="button" class="opt" data-k="' + k + '">' + L[k] + ') ' + o + '</button>').join("") +
+              '<div class="fb"></div></div>'
+          }).join("") + '</div></section>';
+      });
+      document.getElementById("main").innerHTML = h;
+      document.getElementById("nav").innerHTML = nv;
+    }
+    function findQ(id) {const p = id.split("_"); const t = TOPICS.find(x => x.id === p[0]); return t && t.qs[+p[1]]}
+    function paint(box, q, pick) {
+      box.querySelectorAll(".opt").forEach((b, k) => {b.disabled = true; if (k === q.a) b.classList.add("ok"); else if (k === pick) b.classList.add("bad")});
+      const f = box.querySelector(".fb"), good = pick === q.a;
+      f.className = "fb show " + (good ? "good" : "wrong");
+      f.innerHTML = (good ? "✅ Correct Answer!" : "❌ Incorrect Answer — The correct answer is: " + L[q.a] + ") " + q.o[q.a] + ".") + '<div class="ex">' + q.e + '</div>';
+    }
+    function progress() {
+      const n = Object.keys(S).filter(id => findQ(id)).length, p = total ? Math.round(n / total * 100) : 0;
+      document.getElementById("fg").style.strokeDashoffset = 226.2 * (1 - (total ? n / total : 0));
+      document.getElementById("pct").textContent = p + "%";
+      document.getElementById("cnt").textContent = "Completed " + n + " / " + total + " Questions";
+    }
+    function restore() {
+      document.querySelectorAll(".q").forEach(box => {
+        const id = box.dataset.id, q = findQ(id);
+        box.querySelectorAll(".opt").forEach(b => {b.disabled = false; b.className = "opt"});
+        const f = box.querySelector(".fb"); f.className = "fb"; f.innerHTML = "";
+        if (S[id] && Number.isInteger(S[id].a) && q) paint(box, q, S[id].a);
+      });
+      progress();
+    }
+    document.getElementById("main").addEventListener("click", e => {
+      const b = e.target.closest(".opt"); if (!b || b.disabled) return;
+      const box = b.closest(".q"), id = box.dataset.id, q = findQ(id);
+      if (S[id]) return;
+      const pick = +b.dataset.k;
+      S[id] = {a: pick, ok: pick === q.a, done: true};
+      save(); paint(box, q, pick); progress();
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      if (!window.confirm("Clear all saved answers for this study file?")) return;
+      S = {}; try {localStorage.removeItem(KEY)} catch (e) {warn()}
+      restore();
+    });
+    load(); build(); restore();
+  </script>
+</body>
+
+</html>
